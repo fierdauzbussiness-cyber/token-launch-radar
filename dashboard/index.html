@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="radar-dot" aria-hidden="true"></span>
+    <div>
+      <h1>TOKEN RADAR</h1>
+      <p class="tagline">Pre-token protocols, ranked by what their token would be worth if the record stood as it is.</p>
+    </div>
+  </div>
+  <div class="meta" id="meta"></div>
+</header>
+
+<main>
+  <section class="stats" id="stats" aria-label="Coverage"></section>
+
+  <section class="panel" id="howto">
+    <h2>How the radar scores</h2>
+    <p class="formula">implied value = TVL &times; category multiple &times; growth &times; maturity &times; chains</p>
+    <p>The <strong>category multiple</strong> is the live market's own price for that kind of protocol:
+    the median market-cap-per-TVL of the snapshot's already-trading protocols in the same category.
+    Growth is the 7-day TVL change, clamped to &minus;50&hellip;+100%. Maturity rewards how long a
+    protocol has run with no token recorded. Chains adds a small premium for multichain reach.
+    No name is ever special-cased: one function scores every row.</p>
+    <details>
+      <summary>Category multiples used (live comparables from this snapshot)</summary>
+      <table class="mults" id="mults"></table>
+    </details>
+    <p class="note">A protocol is listed as <em>records no token</em> when the snapshot carries no market cap,
+    CoinGecko id or symbol for it — the record is not proof it has none. Implied value is this
+    entry's own claim, never a prediction that a token will be issued, or when.</p>
+  </section>
+
+  <section class="panel controls" aria-label="Filters">
+    <div class="tabs" role="tablist">
+      <button id="tab-pre" class="tab active" role="tab" aria-selected="true">Pre-token board</button>
+      <button id="tab-live" class="tab" role="tab" aria-selected="false">Live tokens &middot; comparables</button>
+    </div>
+    <div class="filters">
+      <label>Search <input id="q" type="search" placeholder="protocol name or slug" autocomplete="off"></label>
+      <label>Category <select id="cat"><option value="all">All categories</option></select></label>
+      <label>Chain <select id="chain"><option value="all">All chains</option></select></label>
+      <label>Sort <select id="sort">
+        <option value="implied">Implied value</option>
+        <option value="tvl">TVL</option>
+        <option value="growth">7-day growth</option>
+        <option value="age">Age, oldest first</option>
+      </select></label>
+      <label class="check"><input id="watchonly" type="checkbox"> Watchlist only</label>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="board-head">
+      <h2 id="board-title">Pre-token board</h2>
+      <span id="count"></span>
+    </div>
+    <div class="table-wrap">
+      <table class="board" id="board"></table>
+    </div>
+    <div class="pager" id="pager"></div>
+    <p class="hint">Click any row for its detail view: the implied-value maths, and the farm plan with costs and times.</p>
+  </section>
+
+  <section class="panel detail" id="detail" hidden></section>
+
+  <section class="panel">
+    <h2>Model sandbox <span class="sandbox-note">exploratory — the submitted board is fixed</span></h2>
+    <p>Move a slider and the table recomputes from the same snapshot figures. The board above always
+    shows the submitted model; the sandbox is for checking how sensitive a rank is to the assumptions.</p>
+    <div class="sandbox" id="sandbox"></div>
+  </section>
+
+  <footer>
+    <p>Data: sealed DefiLlama snapshot, fetched once. Source and date are printed in the header.
+    The board ranks protocols that record no token; the live tab shows the trading protocols the
+    multiples are taken from. Nothing here is investment advice, and no token launch is predicted.</p>
+  </footer>
+</main>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
